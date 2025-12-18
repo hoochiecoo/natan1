@@ -1,0 +1,21 @@
+name: Build Hello NDK
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Установка Android NDK
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26d
+
+      # Сборка через ndk-build
+      - run: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
+
+      # Показать результат
+      - run: ls -R ./libs
